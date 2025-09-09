@@ -1,69 +1,63 @@
-# React + TypeScript + Vite
+# Wod Core Gym - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Αυτό είναι το **frontend** του Gym App (Wod Core Gym). Το frontend είναι φτιαγμένο με **React + TypeScript + Vite**, και επικοινωνεί με το backend μέσω REST API. Σκοπός του είναι να επιτρέπει στους χρήστες να κάνουν booking σε workout sessions, να βλέπουν τα bookings τους και να διαχειρίζονται sessions ανάλογα με τον ρόλο τους (CUSTOMER, TRAINER, ADMIN).
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Τεχνολογίες
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React** (v18)
+- **TypeScript**
+- **Vite** (bundler & dev server)
+- **Tailwind CSS** (UI styling)
+- **Zod** (validation)
+- **React Hook Form** (form handling)
+- **React Router** (routing)
+- **Sonner** (toast notifications)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Ρόλοι & Δυνατότητες
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Ρόλος      | Δυνατότητες                                                            |
+|------------|------------------------------------------------------------------------|
+| CUSTOMER   | Δείτε διαθέσιμα Workout Sessions, κάνετε booking, δείτε τα bookings σας |
+| TRAINER    | Όλα τα παραπάνω + δημιουργία, ενημέρωση και διαγραφή Workout Sessions διαχείριση χρηστών, προαγωγή CUSTOMER σε TRAINER |
+| ADMIN      | Όλα τα παραπάνω      |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Απαιτήσεις
+
+- Node.js (>=18)
+- npm ή yarn
+- Backend σε λειτουργία (Spring Boot + MySQL)
+
+---
+
+## Ρύθμιση & Εκτέλεση
+
+1. **Κλωνοποίηση του repo**
+   ```bash
+   git clone <git@github.com:bafatosuko/gym_app_frontend.git>
+   cd frontend
+   ```
+   
+2. **Εγκατάσταση dependencies**
+    `npm install`
+
+3. **Δημιουργήστε ένα αρχείο .env στο root του project**
+   VITE_API_URL=http://localhost:8080/api/
+
+4. Τρέξιμο σε development mode
+   `npm run dev`
+
+5. build
+  `npm run build`
+
+## Authors
+- CREATOR: ΚΩΝΣΤΑΝΤΙΝΟΥ Θωμάς
+- Backend: Spring Boot + MySQL
+- Frontend: React + TypeScript + Vite
