@@ -11,13 +11,12 @@ import { format } from "date-fns"
 import { Link } from "react-router-dom"
 
 
+// περνάω και το sessionDate ως string και το backend το μετατρεπει απο μονο του σε localDate
+
 const workoutSessionSchema = z.object({
   title: z.string().min(1, "Ο τίτλος είναι υποχρεωτικός"),
   description: z.string().min(5, "Η περιγραφή πρέπει να έχει τουλάχιστον 5 χαρακτήρες"),
-  sessionDate: z.preprocess(
-    (val) => (val ? new Date(val as string) : undefined),
-    z.date({ required_error: "Η ημερομηνία είναι υποχρεωτική" })
-  ),
+  sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Η ημερομηνία πρέπει να είναι σε μορφή YYYY-MM-DD"),
   startTime: z
     .string()
     .regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Μη έγκυρη ώρα (HH:mm)"),
@@ -31,22 +30,16 @@ type WorkoutSessionPageProps = {
 }
 
 export const CreateSessionPage: React.FC<WorkoutSessionPageProps> = ({ sessionToEdit }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<WorkoutSessionForm>({
+
+
+
+  const { register, handleSubmit, formState: { errors } } = useForm<WorkoutSessionForm>({
     resolver: zodResolver(workoutSessionSchema),
-    defaultValues: sessionToEdit
-      ? { ...sessionToEdit }
-      : {
-        title: "WOD",
-        description: "Workout Of the Day",
-        sessionDate: new Date(),
-        startTime: "08:00",
-        capacity: 15,
-      },
-  })
+      defaultValues: sessionToEdit
+        ? { ...sessionToEdit, sessionDate: sessionToEdit.sessionDate }
+        : { title: "WOD", description: "Workout Of the Day", sessionDate: format(new Date(), "yyyy-MM-dd"), startTime: "08:00", capacity: 15 },
+  });
+
 
 
   const onSubmit: SubmitHandler<WorkoutSessionForm> = async (data) => {
@@ -71,13 +64,13 @@ export const CreateSessionPage: React.FC<WorkoutSessionPageProps> = ({ sessionTo
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label>Τίτλος</Label>
+          <Label className="mb-1">Τίτλος</Label>
           <Input {...register("title")} placeholder="Τίτλος" />
           {errors.title && <p className="text-red-600 text-sm">{errors.title.message}</p>}
         </div>
 
         <div>
-          <Label>Περιγραφή</Label>
+          <Label className="mb-1">Περιγραφή</Label>
           <Input {...register("description")} placeholder="Περιγραφή session" />
           {errors.description && (
             <p className="text-red-600 text-sm">{errors.description.message}</p>
@@ -85,7 +78,7 @@ export const CreateSessionPage: React.FC<WorkoutSessionPageProps> = ({ sessionTo
         </div>
 
         <div>
-          <Label>Ημερομηνία</Label>
+          <Label className="mb-1">Ημερομηνία</Label>
           <Input
             type="date"
             {...register("sessionDate")}
@@ -97,7 +90,7 @@ export const CreateSessionPage: React.FC<WorkoutSessionPageProps> = ({ sessionTo
         </div>
 
         <div>
-          <Label>Ώρα Έναρξης (HH:mm)</Label>
+          <Label className="mb-1">Ώρα Έναρξης (HH:mm)</Label>
           <Input type="time" {...register("startTime")} />
           {errors.startTime && (
             <p className="text-red-600 text-sm">{errors.startTime.message}</p>
@@ -105,14 +98,14 @@ export const CreateSessionPage: React.FC<WorkoutSessionPageProps> = ({ sessionTo
         </div>
 
         <div>
-          <Label>Χωρητικότητα</Label>
+          <Label className="mb-1">Χωρητικότητα</Label>
           <Input type="number" {...register("capacity", { valueAsNumber: true })} />
           {errors.capacity && (
             <p className="text-red-600 text-sm">{errors.capacity.message}</p>
           )}
         </div>
 
-        <Button type="submit">{sessionToEdit ? "Ενημέρωση" : "Δημιουργία"}</Button>
+        <Button type="submit" className="hover:text-red-500">{sessionToEdit ? "Ενημέρωση" : "Δημιουργία"}</Button>
       </form>
 
       <Link to="/manage_sessions" className="hover:text-red-500 font-medium block mt-4">

@@ -29,8 +29,12 @@ const LoginPage = () => {
       await loginUser(data);
       toast.success("Login successfully");
       navigate("/");
-    } catch (err) {
-      toast.error(err instanceof  Error ? err.message : "Login failed.");
+    } catch (err : any) {
+      if (err.status === 401) {
+        toast.error("Λάθος username ή password");
+      } else {
+        toast.error(err.message || "Login failed.");
+      }
     }
 
   }

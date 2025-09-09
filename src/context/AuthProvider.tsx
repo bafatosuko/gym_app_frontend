@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import { getCookie, setCookie, deleteCookie } from "@/utils/cookies.ts";
 import { AuthContext } from "@/context/AuthContext.ts";
 import { type LoginFields, login, type AuthResponse } from "@/api/login.ts";
-import {redirect} from "react-router";
+
 
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

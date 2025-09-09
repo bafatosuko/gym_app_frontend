@@ -62,8 +62,8 @@ const  CalendarComponent =()=> {
       await cancelBooking(program.bookingId)
       toast.success("Check-in ακυρώθηκε")
       fetchPrograms(selectedDateKey)
-    } catch(err) {
-      toast.error("Αποτυχία ακύρωσης" + err.message)
+    } catch {
+      toast.error("Αποτυχία ακύρωσης" )
     }
   }
 

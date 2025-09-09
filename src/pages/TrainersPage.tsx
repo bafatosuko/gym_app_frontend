@@ -20,7 +20,7 @@ const TrainersPage = () => {
   const [loading, setLoading] = useState(true);
 
 
-  const{role} = useAuth();
+  const{} = useAuth();
 
 
   const loadUsers = async () => {

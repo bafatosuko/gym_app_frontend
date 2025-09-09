@@ -24,9 +24,11 @@ const RegisterPage = () => {
 
       const { confirmPassword, ...dataToSend } = data;
 
+
+
       // console.log("Sending:", dataToSend); // debug
 
-      await registerUser(dataToSend);
+      await registerUser(dataToSend );
       toast.success("Registration successful!");
       navigate("/login");
     } catch (err) {
@@ -39,46 +41,51 @@ const RegisterPage = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-sm mx-auto p-8 space-y-4 border rounded text-center mt-8"
     >
-      <h1>Register</h1>
+      <h1 style={{fontSize: "22px"}} >Register</h1>
 
       <div>
-        <Label htmlFor="username">Email</Label>
+        <Label htmlFor="username" className="mb-1">Email</Label>
         <Input id="username" type="text" {...register("username")} disabled={isSubmitting} />
         {errors.username && <p className="text-red-600">{errors.username.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password" className="mb-1">Password</Label>
         <Input id="password" type="password" {...register("password")} disabled={isSubmitting} />
         {errors.password && <p className="text-red-600">{errors.password.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="confirmPassword">Repeat your Password</Label>
+        <Label htmlFor="confirmPassword" className="mb-1">Repeat your Password</Label>
         <Input id="confirmPassword" type="password" {...register("confirmPassword")} disabled={isSubmitting} />
         {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="lastname">Lastname</Label>
+        <Label htmlFor="lastname" className="mb-1">Lastname</Label>
         <Input id="lastname" type="text" {...register("lastname")} disabled={isSubmitting} />
         {errors.lastname && <p className="text-red-600">{errors.lastname.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="firstname">Firstname</Label>
+        <Label htmlFor="firstname" className="mb-1">Firstname</Label>
         <Input id="firstname" type="text" {...register("firstname")} disabled={isSubmitting} />
         {errors.firstname && <p className="text-red-600">{errors.firstname.message}</p>}
       </div>
 
       <div>
-        <Label htmlFor="dateOfBirth">Date Of Birth</Label>
-        <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} disabled={isSubmitting} />
+        <Label htmlFor="dateOfBirth" className="mb-1">Date Of Birth</Label>
+        <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} disabled={isSubmitting}
+               max={new Date(new Date().setFullYear(new Date().getFullYear() - 10))
+                 .toISOString()
+                 .split("T")[0]}
+        />
         {errors.dateOfBirth && <p className="text-red-600">{errors.dateOfBirth.message}</p>}
+
       </div>
 
       <div>
-        <Label htmlFor="gender">Gender</Label>
+        <Label htmlFor="gender" className="mb-1">Gender</Label>
         <select
           id="gender"
           className="border rounded p-2 w-full"

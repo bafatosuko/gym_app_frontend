@@ -22,21 +22,26 @@ const Header = () => {
           <ul className="flex gap-6">
             <li><Link to="/" className="hover:text-red-500 font-medium">Αρχική</Link></li>
             <li><Link to="/classes" className="hover:text-red-500 font-medium">Προγράμματα</Link></li>
-            <li><Link to="/trainers" className="hover:text-red-500 font-medium">Προπονητές</Link></li>
+
+
+            {isAuthenticated && (role === "TRAINER" || role === "ADMIN") ? (
+              <Link to="/trainers" className="hover:text-red-500 font-medium">
+                Διαχείριση Χρηστών
+              </Link>) : (<></>)}
 
             {isAuthenticated && (role === "TRAINER" || role === "ADMIN") ? (
               <Link to="/createSession" className="hover:text-red-500 font-medium">
-                Create a WorkoutSession
+                Διαχείριση των Προγραμμάτων
               </Link>) : (<></>)}
 
             {isAuthenticated && (role === "CUSTOMER" || role === "ADMIN") ? (
               <Link to="/bookings" className="hover:text-red-500 font-medium">
-                Your Bookings
+                Οι Κρατήσεις μου
               </Link>) : (<></>)}
             {isAuthenticated ?(
               <li>
                 <Link to="/subscription" className="hover:text-red-500 font-medium">
-                  My Subscription
+                 Συνδρομές
                 </Link>
               </li>
             ) : (<></>)}

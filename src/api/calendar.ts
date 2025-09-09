@@ -1,4 +1,4 @@
-import {getCookie} from "@/utils/cookies.ts";
+
 import {authHeaders} from "@/api/auth.ts";
 
 

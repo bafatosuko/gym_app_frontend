@@ -29,13 +29,18 @@ export async function login({
 
   if (!res.ok) {
     let detail = "Login Failed.";
+
     try {
       const data = await res.json();
       if (typeof data?.detail == "string") detail = data.detail;
     } catch (error) {
       console.error(error);
     }
-    throw new Error(detail);
+
+    const err: any = new Error(detail);
+    err.status = res.status;
+    throw err;
+
   }
   return await res.json();
 }

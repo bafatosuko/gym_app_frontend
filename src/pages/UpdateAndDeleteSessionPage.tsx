@@ -9,14 +9,14 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { authHeaders } from "@/api/auth"
+import {toast} from "sonner";
 
 const sessionSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  sessionDate: z.preprocess(
-    (val) => (val ? new Date(val as string) : undefined),
-    z.date()
-  ),
+  sessionDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in format yyyy-MM-dd"),
   startTime: z.string().min(1, "Start time is required"),
   capacity: z.number().min(5, "Capacity needs to be greater than 5"),
 })
@@ -53,7 +53,7 @@ const UpdateAndDeleteSessionPage = () => {
       }
       const data = await res.json()
       setSessions(data)
-      console.log("📌 Sessions fetched:", data)
+      console.log("Sessions fetched:", data)
     } catch (err) {
       console.error(err)
     }
@@ -67,10 +67,10 @@ const UpdateAndDeleteSessionPage = () => {
   const onSubmit = async (values: SessionFormData) => {
     if (!editingSession) return
 
-    // Μετατροπή date σε string "yyyy-MM-dd"
+    // Μετατροπή date σε string "yyyy-MM-dd" ΔΕΝ ΧΡΕΙΑΖΕΤΑΙ!!!!
     const payload = {
       ...values,
-      sessionDate: values.sessionDate.toISOString().split("T")[0],
+      //sessionDate: values.sessionDate.toISOString().split("T")[0],
     }
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}workout-sessions/${editingSession.id}`, {
@@ -86,10 +86,11 @@ const UpdateAndDeleteSessionPage = () => {
 
     setOpen(false)
     setEditingSession(null)
+    toast.success("Session  has been updated successfully.")
     await fetchSessions()
   }
 
-  // 🔹 Handle delete
+  // Handle delete
   const handleDelete = async (id: number) => {
     if (!confirm("Είσαι σίγουρος ότι θες να διαγράψεις το session;")) return
     try {
@@ -99,7 +100,9 @@ const UpdateAndDeleteSessionPage = () => {
       })
       if (!res.ok) throw new Error("Failed to delete session")
       setSessions((prev) => prev.filter((s) => s.id !== id))
+      toast.success(`Session με  id:${id} διαγράφτηκε  επιτυχώς`)
     } catch (err) {
+      toast.error(err + "Το session δεν διαγράφτηκε")
       console.error(err)
     }
   }
@@ -126,7 +129,7 @@ const UpdateAndDeleteSessionPage = () => {
                     setEditingSession(session)
                     reset({
                       ...session,
-                      sessionDate: new Date(session.sessionDate),
+                      //sessionDate: new Date(session.sessionDate),
                     })
                     setOpen(true)
                   }}
