@@ -57,7 +57,21 @@
 5. build
   `npm run build`
 
-## Authors
+
+## Test Users!!
+Αυτοί οι users φτιάχνονται κατεύθειαν απο το backend.Για πιο εύκολη χρήση της εφαρμογής.
+### ADMIN
+- username: admin@admin.gr
+- password: !Test123
+
+### Trainer
+
+- username: trainer@trainer.gr
+- password: !Test123
+
+## Author
 - CREATOR: ΚΩΝΣΤΑΝΤΙΝΟΥ Θωμάς
 - Backend: Spring Boot + MySQL
 - Frontend: React + TypeScript + Vite
+
+
