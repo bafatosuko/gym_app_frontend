@@ -91,6 +91,11 @@ const  CalendarComponent =()=> {
             const isPast = program.past;
             const isUserCheckedIn = !!program.bookingId
 
+            // Δεν μπορεί να ακυρώσει αν είναι λιγότερο από 1 ώρα πριν το μάθημα
+            const oneHourBefore = new Date(sessionDateTime.getTime() - 60 * 60 * 1000);
+            const now = new Date();
+            const isCancelDisabled = now > oneHourBefore;
+
 
             return (
               <Card key={program.id} className={`p-4 border ${getBackgroundColor(program.title)}`}>
@@ -99,7 +104,11 @@ const  CalendarComponent =()=> {
                   <p>Συμμετοχές: {program.capacity - program.availableSlots}/{program.capacity}</p>
                   <Button
                     onClick={() => isUserCheckedIn ? handleCancelCheckIn(program) : handleCheckIn(program)}
-                    disabled={!isUserCheckedIn && (isFull || isPast) || program.disabled}
+                    disabled={
+                      (!isUserCheckedIn && (isFull || isPast)) ||
+                      program.disabled ||
+                      (isUserCheckedIn && isCancelDisabled)
+                    }
                   >
                     {isUserCheckedIn ? "Cancel Check-In" : isPast ? "Έληξε" : "Check In"}
                   </Button>
